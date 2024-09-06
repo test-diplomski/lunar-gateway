@@ -1,0 +1,76 @@
+gateway:
+  route: /apis
+  port: 5555
+services:
+  Magnetar: magnetar:5000
+  Meridian: meridian:8000
+  AuthService: apollo:8002
+  RateLimitService: rate_limiter_service:8080
+groups:
+  core:
+    v1:
+      RegisterUser:
+        method_route: /user
+        type: POST
+        service: AuthService
+      LoginUser:
+        method_route: /auth
+        type: POST
+        service: AuthService
+      ListNodePool:
+        method_route: /nodes/available
+        type: GET
+        service: Magnetar
+      QueryNodePool:
+        method_route: /nodes/available/query_match
+        type: GET
+        service: Magnetar
+      CreateRateLimiter:
+        method_route: /rate-limiter
+        type: POST
+        service: RateLimitService
+      AddNamespace:
+        method_route: /namespaces
+        type: POST
+        service: Meridian
+      RemoveNamespace:
+        method_route: /namespaces
+        type: DELETE
+        service: Meridian
+      AddApp:
+        method_route: /apps
+        type: POST
+        service: Meridian
+      RemoveApp:
+        method_route: /apps
+        type: DELETE
+        service: Meridian
+      GetNamespace:
+        method_route: /namespaces
+        type: GET
+        service: Meridian
+      GetNamespaceHierarchy:
+        method_route: /namespace_hierarchies
+        type: GET
+        service: Meridian
+      SetNamespaceResources:
+        method_route: /namespace_quotas
+        type: POST
+        service: Meridian
+      SetAppResources:
+        method_route: /app_quotas
+        type: POST
+        service: Meridian
+      #UpdateRateLimiter:
+        #method_route: /rate-limiter/
+        #type: PUT
+        #service: RateLimiter
+      #DeleteRateLimiter:
+        #method_route: /rate-limiter/
+        #type: DELETE
+        #service: RateLimiter
+      #CanRateLimiterAllowRequest:
+        #method_route: /rate-limiter/allow
+        #type: GET
+        #service: RateLimiter
+      

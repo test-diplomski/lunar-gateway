@@ -1,0 +1,178 @@
+gateway:
+  route: /apis
+  port: 5555
+services:
+  Magnetar: magnetar:5000
+  Meridian: meridian:8000
+  Kuiper: kuiper:9001
+  AuthService: apollo:8002
+  OortAdministrator: oort:8000
+  ConfigSchemaService: quasar:9090
+  RateLimitService: rate_limiter_service:8080
+groups:
+  core:
+    v1:
+      RegisterUser:
+        method_route: /users
+        type: POST
+        service: AuthService
+      LoginUser:
+        method_route: /auth
+        type: POST
+        service: AuthService
+      ListNodePool:
+        method_route: /nodes/available
+        type: GET
+        service: Magnetar
+      ListOrgOwnedNodes:
+        method_route: /nodes/allocated
+        type: GET
+        service: Magnetar
+      QueryNodePool:
+        method_route: /nodes/available/query_match
+        type: GET
+        service: Magnetar
+      QueryOrgOwnedNodes:
+        method_route: /nodes/allocated/query_match
+        type: GET
+        service: Magnetar
+      ClaimOwnership:
+        method_route: /nodes
+        type: PATCH
+        service: Magnetar
+      PutFloat64Label:
+        method_route: /labels/float64
+        type: POST
+        service: Magnetar
+      PutBoolLabel:
+        method_route: /labels/bool
+        type: POST
+        service: Magnetar
+      PutStringLabel:
+        method_route: /labels/string
+        type: POST
+        service: Magnetar
+      DeleteLabel:
+        method_route: /labels
+        type: DELETE
+        service: Magnetar
+      CreateInheritanceRel:
+        method_route: /relations
+        type: POST
+        service: OortAdministrator
+      CreatePolicy:
+        method_route: /policies
+        type: POST
+        service: OortAdministrator
+      PutStandaloneConfig:
+        method_route: /configs/standalone
+        type: POST
+        service: Kuiper
+      GetStandaloneConfig:
+        method_route: /configs/standalone/single
+        type: GET
+        service: Kuiper
+      ListStandaloneConfig:
+        method_route: /configs/standalone
+        type: GET
+        service: Kuiper
+      DeleteStandaloneConfig:
+        method_route: /configs/standalone
+        type: DELETE
+        service: Kuiper
+      PlaceStandaloneConfig:
+        method_route: /configs/standalone/placements
+        type: POST
+        service: Kuiper
+      ListPlacementTaskByStandaloneConfig:
+        method_route: /configs/standalone/placements
+        type: GET
+        service: Kuiper
+      DiffStandaloneConfig:
+        method_route: /configs/standalone/diff
+        type: GET
+        service: Kuiper
+      PutConfigGroup:
+        method_route: /configs/groups
+        type: POST
+        service: Kuiper
+      GetConfigGroup:
+        method_route: /configs/groups/single
+        type: GET
+        service: Kuiper
+      ListConfigGroup:
+        method_route: /configs/groups
+        type: GET
+        service: Kuiper
+      DeleteConfigGroup:
+        method_route: /configs/groups
+        type: DELETE
+        service: Kuiper
+      PlaceConfigGroup:
+        method_route: /configs/groups/placements
+        type: POST
+        service: Kuiper
+      ListPlacementTaskByConfigGroup:
+        method_route: /configs/groups/placements
+        type: GET
+        service: Kuiper
+      DiffConfigGroup:
+        method_route: /configs/groups/diff
+        type: GET
+        service: Kuiper
+      SaveConfigSchema:
+        method_route: /schemas
+        type: POST
+        service: ConfigSchemaService
+      GetConfigSchema:
+        method_route: /schemas
+        type: GET
+        service: ConfigSchemaService
+      DeleteConfigSchema:
+        method_route: /schemas
+        type: DELETE
+        service: ConfigSchemaService
+      ValidateConfiguration:
+        method_route: /schemas/validations
+        type: GET
+        service: ConfigSchemaService
+      GetConfigSchemaVersions:
+        method_route: /schemas/versions
+        type: GET
+        service: ConfigSchemaService
+      CreateRateLimiter:
+        method_route: /rate-limiter
+        type: POST
+        service: RateLimitService
+      AddNamespace:
+        method_route: /namespaces
+        type: POST
+        service: Meridian
+      RemoveNamespace:
+        method_route: /namespaces
+        type: DELETE
+        service: Meridian
+      AddApp:
+        method_route: /apps
+        type: POST
+        service: Meridian
+      RemoveApp:
+        method_route: /apps
+        type: DELETE
+        service: Meridian
+      GetNamespace:
+        method_route: /namespaces
+        type: GET
+        service: Meridian
+      GetNamespaceHierarchy:
+        method_route: /namespace_hierarchies
+        type: GET
+        service: Meridian
+      SetNamespaceResources:
+        method_route: /namespace_quotas
+        type: POST
+        service: Meridian
+      SetAppResources:
+        method_route: /app_quotas
+        type: POST
+        service: Meridian
