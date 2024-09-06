@@ -21,6 +21,15 @@ jobs:
 
         - name: Move apollo to parent directory
           run: mv apollo ../apollo
+
+        - name: Check additional repo
+          uses: actions/checkout@v4
+          with:
+            repository: 'test-diplomski/heliosphere'
+            path: 'heliosphere'
+
+        - name: Move heliosphere to parent directory
+          run: mv heliosphere ../heliosphere
           
         - name: Set up Go
           uses: actions/setup-go@v5
